@@ -1,24 +1,57 @@
-import logo from './logo.svg';
+/* global chrome */
+
 import './App.css';
 
+import { useState, useEffect } from 'react'
+
 function App() {
+  const [title, setTitle] = useState("Loading...");
+  const [offers, setOffers] = useState("0 offers")
+  
+  const handleClick = () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tabId = tabs[0].id;
+
+      chrome.scripting.executeScript(
+        {
+          target: { tabId },
+          files: ["contentScript.js"], // must be in public/
+        },
+        () => {
+          chrome.tabs.sendMessage(tabId, { action: "getTitle" }, (response) => {
+            if (chrome.runtime.lastError) {
+              setTitle("Error: " + chrome.runtime.lastError.message);
+            } else {
+              setTitle("Title: " + response.title);
+            }
+          chrome.tabs.sendMessage(tabId, { action: "getOffers"}, (response) => {
+            if (chrome.runtime.lastError) {
+              setOffers("Offer Error: " + chrome.runtime.lastError.message);
+            } else {
+              setOffers("Offers: " + response.offers);
+            }
+            
+          })
+          });
+        }
+      );
+    });
+  };
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>Click below to activate your offers</h1>
+      <div className="card">
+        <button onClick={handleClick}>
+          Activate
+        </button>
+        <div> {title}</div>
+        <div>{offers} </div>
+      </div>
+      
+    </>
   );
 }
 

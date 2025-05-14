@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# A Chrome Extension to Activate Chase Credit Card offers.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Inspired to use React and Vite by https://medium.com/@5tigerjelly/creating-a-chrome-extension-with-react-and-vite-boilerplate-provided-db3d14473bf6
 
-## Available Scripts
 
-In the project directory, you can run:
+the button is in class r9jbijb. type = "ico_add_circle"
+then it opens the page, will need to go back and repeat I think.
 
-### `npm start`
+      "https://secure.chase.com/web/auth/*"
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+      "content_scripts": [
+        {
+          "js": ["scripts/addOffers.js"],
+          "matches": [
+            "https://secure.chase.com/web/auth/*"
+          ]
+        }
+      ]
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<!-- stuff from other -->
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  function waitForElementsByClassName(selector, callback, interval = 100, timeout = 5000) {
+    const start = Date.now();
+    const timer = setInterval(() => {
+        const elements = document.getElementsByClassName(selector);
+        if (elements.length > 0 || Date.now() - start > timeout) {
+        clearInterval(timer);
+        callback(elements);
+        }
+    }, interval);
+}
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+function waitForElementsByID(selector, callback, interval = 100, timeout = 5000) {
+    const start = Date.now();
+    const timer = setInterval(() => {
+        const elements = document.getElementById(selector);
+        if (elements != null && ( elements.length > 0 || Date.now() - start > timeout)) {
+        clearInterval(timer);
+        callback(elements);
+        }
+    }, interval);
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+console.log("looking for offers")
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+waitForElementsByClassName('r9jbijb', (ele) => {
+    console.log('Found elements:', ele.length);
+    for (let i = 0; i < ele.length; i++) {
+        console.log(i, ele[i].parentNode.parentNode);
+    }
+    console.log("clicked", ele[0])
+    ele[0].click()
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+});
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+waitForElementsByID('back-button', (ele) => {
+    console.log('Found elements:', ele.length);
+    // for (let i = 0; i < ele.length; i++) {
+    //     console.log(i, ele[i].parentNode.parentNode);
+    // }
+    // console.log("clicked", ele[0])
+    ele[0].click()
 
-## Learn More
+})
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
