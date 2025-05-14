@@ -2,11 +2,10 @@
 
 import './App.css';
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 function App() {
-  const [title, setTitle] = useState("Loading...");
-  const [offers, setOffers] = useState("0 offers")
+  const [offers, setOffers] = useState("No Offers Added")
   
   const handleClick = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -18,36 +17,26 @@ function App() {
           files: ["contentScript.js"], // must be in public/
         },
         () => {
-          chrome.tabs.sendMessage(tabId, { action: "getTitle" }, (response) => {
-            if (chrome.runtime.lastError) {
-              setTitle("Error: " + chrome.runtime.lastError.message);
-            } else {
-              setTitle("Title: " + response.title);
-            }
+            
           chrome.tabs.sendMessage(tabId, { action: "getOffers"}, (response) => {
             if (chrome.runtime.lastError) {
               setOffers("Offer Error: " + chrome.runtime.lastError.message);
             } else {
               setOffers("Offers: " + response.offers);
             }
-            
-          })
           });
         }
       );
     });
   };
 
-
-
   return (
     <>
       <h1>Click below to activate your offers</h1>
       <div className="card">
         <button onClick={handleClick}>
-          Activate
+          Activate Chase Offers
         </button>
-        <div> {title}</div>
         <div>{offers} </div>
       </div>
       
