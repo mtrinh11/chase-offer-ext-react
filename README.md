@@ -9,3 +9,9 @@ open.
 Wow semi colons broke me, i guess the async operation in my content script doesn't
 work if I don't include that semi colon after the "looking for offers" console.log
 because it reads the async function all wonky...
+
+
+# to do
+- want to add functionality for wellsfargo, citi too
+- put it on the chrome extension store
+

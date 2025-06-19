@@ -18,7 +18,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       
       window.location.href = originalUrl;
 
-      console.log("done clicking");
+      console.log("done looking for offers");
       sendResponse({ offers: items });
     })();
     return true;

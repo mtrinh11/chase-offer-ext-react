@@ -4,10 +4,22 @@
     "manifest_version": 3,
     "action": {
       "default_popup": "index.html",
-      "default_icon": "card2.png"
+      "default_icon": {
+        "16": "card16.png",
+        "32": "card32.png",
+        "48": "card48.png",
+        "128": "card128.png"
+      }
+    },
+    "icons": {
+      "16": "card16.png",
+      "32": "card32.png",
+      "48": "card48.png",
+      "128": "card128.png"
     },
     "permissions": [
       "activeTab",
-      "scripting"
+      "scripting",
+      "storage"
     ]
 }
