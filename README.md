@@ -1,17 +1,3 @@
 # A Chrome Extension to Activate Chase Credit Card offers.
 
-
-## Notes for myself
-So i don't necessarily need promises for the
-content script. I just need to keep the port
-open. 
-
-Wow semi colons broke me, i guess the async operation in my content script doesn't
-work if I don't include that semi colon after the "looking for offers" console.log
-because it reads the async function all wonky...
-
-
-# to do
-- want to add functionality for wellsfargo, citi too
-- put it on the chrome extension store
-
+A simple auto-clicker that activates your Chase credit card offers at the click of a button. Simply navigate to the offers page beforehand and click the button in the extension. Data is pulled to tell you which offers have been activated. No other data is used other than the offer's title. Implemented using Javascript and the Chrome extension library.
