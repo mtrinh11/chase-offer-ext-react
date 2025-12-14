@@ -1,29 +1,35 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "getOffers") {
-    console.log("looking for offers");
-    const originalUrl = window.location.href;
-    (async () => {
-      let items = [];
-      const elements = await waitForElementsByTagname('mds-icon');
-      let addableElements = Array.from(elements).filter((item) => item.getAttribute('type') === 'ico_add_circle');
+  if (request.action !== "getOffers") return false;
 
-      for (let i = 0; i < addableElements.length; i++) {
-        const label = addableElements[i]?.parentNode?.parentNode?.parentNode?.getAttribute('aria-label');
-        if (label) items.push(label);
-      }
+  console.log("looking for offers");
+  const originalUrl = window.location.href;
 
-      for (let i = 0; i < addableElements.length; i++) {
-        addableElements[i]?.parentNode?.parentNode?.parentNode.click()
-      }
-      
-      window.location.href = originalUrl;
+  (async () => {
+    const items = [];
 
-      console.log("done looking for offers");
-      sendResponse({ offers: items });
-    })();
-    return true;
-  }
-  return false;
+    const containers = document.querySelectorAll(".offerTileGridItemContainer");
+
+    containers.forEach((container) => {
+      // Find the actual clickable tile
+      const tile = container.querySelector('[data-cy="commerce-tile"]');
+
+      if (!tile) return;
+
+      const label = tile.getAttribute("aria-label");
+
+      if (label) items.push(label);
+
+      // Click the tile
+      tile.click();
+    });
+
+    window.location.href = originalUrl;
+
+    console.log("done looking for offers");
+    sendResponse({ offers: items });
+  })();
+
+  return true; // keep message channel open
 });
 
 function waitForElementsByClassName(selector, callback, interval = 100, timeout = 3000) {
