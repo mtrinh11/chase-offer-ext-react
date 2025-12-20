@@ -17,7 +17,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
       const label = tile.getAttribute("aria-label");
 
-      if (label) items.push(label);
+      if (!label) return;
+
+      // Skip tiles that already have "Success Added" in the label
+      if (label.includes("Success Added")) return;
+
+      items.push(label);
 
       // Click the tile
       tile.click();
